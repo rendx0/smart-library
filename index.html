@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Library - Ухаалаг Номын Сан</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-book-open"></i>
+                <span>Smart Library</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Нүүр</a></li>
+                <li><a href="#books" class="nav-link">Номын сан</a></li>
+                <li><a href="#categories" class="nav-link">Ангилал</a></li>
+                <li><a href="#about" class="nav-link">Бидний тухай</a></li>
+                <li><a href="#contact" class="nav-link">Холбоо барих</a></li>
+                <li><a href="#login" class="nav-link auth">Нэвтрэх</a></li>
+                <li><a href="#signup" class="nav-link auth signup">Бүртгүүлэх</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Search -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Ухаалаг Номын Сан</h1>
+            <p>Сургуулийн номын сангийн орчин үеийн платформ</p>
+            
+            <!-- Search Section -->
+            <div class="search-container glass-morphism">
+                <div class="search-box">
+                    <input type="text" placeholder="Ном, зохиолч эсвэл ангилал хайх..." class="search-input">
+                    <button class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div class="search-filters">
+                    <select class="filter-select">
+                        <option value="">Бүх ангилал</option>
+                        <option value="fiction">Сонгодог уран зохиол</option>
+                        <option value="science">Шинжлэх ухаан</option>
+                        <option value="history">Түүх</option>
+                        <option value="tech">Технологи</option>
+                    </select>
+                    <select class="filter-select">
+                        <option value="">Үнэлгээ</option>
+                        <option value="5">⭐⭐⭐⭐⭐ 5 оно</option>
+                        <option value="4">⭐⭐⭐⭐ 4 оно ба түүнээс</option>
+                        <option value="3">⭐⭐⭐ 3 оно ба түүнээс</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Books Section -->
+    <section class="featured-section">
+        <div class="container">
+            <h2 class="section-title">Онцлох номууд</h2>
+            <div class="books-grid">
+                <div class="book-card glass-morphism">
+                    <div class="book-image">
+                        <img src="https://via.placeholder.com/200x300?text=Book+1" alt="Номын зураг">
+                        <span class="featured-badge">Онцлох</span>
+                    </div>
+                    <div class="book-info">
+                        <h3>Халимын цаг</h3>
+                        <p class="author">Мөнхбаяр</p>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>4.8</span>
+                        </div>
+                        <p class="description">Энэхүү номд байгаль, хүнийн сэтгэл, үйлчилгээний ухаал зэрэг сэдвүүд сонирхолтой байдлаар дурдагдана.</p>
+                        <div class="book-actions">
+                            <button class="btn btn-primary">Дэлгэрэнгүй</button>
+                            <button class="btn btn-secondary">Захиалах</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="book-card glass-morphism">
+                    <div class="book-image">
+                        <img src="https://via.placeholder.com/200x300?text=Book+2" alt="Номын зураг">
+                        <span class="featured-badge">Онцлох</span>
+                    </div>
+                    <div class="book-info">
+                        <h3>Ухаан, хүн</h3>
+                        <p class="author">Б. Дашзэвэг</p>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>5.0</span>
+                        </div>
+                        <p class="description">Оюун ухаан, сэтгэл судлал, хүн судлалын сонирхолтой нэгдэл. Орчин үеийн сэтгэхүй.</p>
+                        <div class="book-actions">
+                            <button class="btn btn-primary">Дэлгэрэнгүй</button>
+                            <button class="btn btn-secondary">Захиалах</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="book-card glass-morphism">
+                    <div class="book-image">
+                        <img src="https://via.placeholder.com/200x300?text=Book+3" alt="Номын зураг">
+                        <span class="featured-badge">Онцлох</span>
+                    </div>
+                    <div class="book-info">
+                        <h3>Сүүлийн бүлэг</h3>
+                        <p class="author">Н. Батхишиг</p>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>4.6</span>
+                        </div>
+                        <p class="description">Шүүмжлэлтэй, сонирхолтой түүвэр. Өнөө үеийн түүхэн, байгаль хамгаалал.</p>
+                        <div class="book-actions">
+                            <button class="btn btn-primary">Дэлгэрэнгүй</button>
+                            <button class="btn btn-secondary">Захиалах</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- New Arrivals Section -->
+    <section class="new-arrivals-section">
+        <div class="container">
+            <h2 class="section-title">Шинээр ирсэн номууд</h2>
+            <div class="books-carousel">
+                <div class="carousel-track">
+                    <div class="book-card-small glass-morphism">
+                        <img src="https://via.placeholder.com/150x220?text=New+1" alt="Шинэ ном">
+                        <h4>Ирээдүйн хүүхэлнүүр</h4>
+                        <p>Т. Оюун</p>
+                        <button class="btn btn-sm">Дэлгэрэнгүй</button>
+                    </div>
+                    <div class="book-card-small glass-morphism">
+                        <img src="https://via.placeholder.com/150x220?text=New+2" alt="Шинэ ном">
+                        <h4>Компьютер эхлүүлэх</h4>
+                        <p>Э. Болд</p>
+                        <button class="btn btn-sm">Дэлгэрэнгүй</button>
+                    </div>
+                    <div class="book-card-small glass-morphism">
+                        <img src="https://via.placeholder.com/150x220?text=New+3" alt="Шинэ ном">
+                        <h4>Эргээд ирмэгцэд</h4>
+                        <p>Х. Энхзул</p>
+                        <button class="btn btn-sm">Дэлгэрэнгүй</button>
+                    </div>
+                    <div class="book-card-small glass-morphism">
+                        <img src="https://via.placeholder.com/150x220?text=New+4" alt="Шинэ ном">
+                        <h4>Байгаль, ертөнц</h4>
+                        <p>З. Сарай</p>
+                        <button class="btn btn-sm">Дэлгэрэнгүй</button>
+                    </div>
+                    <div class="book-card-small glass-morphism">
+                        <img src="https://via.placeholder.com/150x220?text=New+5" alt="Шинэ ном">
+                        <h4>Сургууль, амьдрал</h4>
+                        <p>А. Цэцэг</p>
+                        <button class="btn btn-sm">Дэлгэрэнгүй</button>
+                    </div>
+                </div>
+                <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Categories Section -->
+    <section class="categories-section" id="categories">
+        <div class="container">
+            <h2 class="section-title">Түгээмэл ангиллууд</h2>
+            <div class="categories-grid">
+                <div class="category-card neumorphism">
+                    <div class="category-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3>Сонгодог уран зохиол</h3>
+                    <p>Сонгодог, санамсаргүй төрөл зүйлийн уран зохиол.</p>
+                    <span class="book-count">245 ном</span>
+                </div>
+
+                <div class="category-card neumorphism">
+                    <div class="category-icon">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <h3>Шинжлэх ухаан</h3>
+                    <p>Биологи, физик, химийн сонирхолтой ном.</p>
+                    <span class="book-count">189 ном</span>
+                </div>
+
+                <div class="category-card neumorphism">
+                    <div class="category-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>Түүх болон дүрслэл</h3>
+                    <p>Монголын түүх, соёл, өвлийн мэдлэг.</p>
+                    <span class="book-count">156 ном</span>
+                </div>
+
+                <div class="category-card neumorphism">
+                    <div class="category-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3>Технологи</h3>
+                    <p>Информатик, программ, IT технологи.</p>
+                    <span class="book-count">98 ном</span>
+                </div>
+
+                <div class="category-card neumorphism">
+                    <div class="category-icon">
+                        <i class="fas fa-child"></i>
+                    </div>
+                    <h3>Хүүхдийн ном</h3>
+                    <p>Залуу сурагчдад зөвлөмжтэй ном.</p>
+                    <span class="book-count">312 ном</span>
+                </div>
+
+                <div class="category-card neumorphism">
+                    <div class="category-icon">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <h3>Сургалт, боловсрол</h3>
+                    <p>Ажил эрхлэлт, сургалтын хэрэгсэл.</p>
+                    <span class="book-count">134 ном</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Library Statistics Section -->
+    <section class="stats-section">
+        <div class="container">
+            <h2 class="section-title">Номын сангийн мэдээ</h2>
+            <div class="stats-grid">
+                <div class="stat-card glass-morphism">
+                    <div class="stat-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>2,547</h3>
+                        <p>Нийт номын сан</p>
+                    </div>
+                </div>
+
+                <div class="stat-card glass-morphism">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>1,234</h3>
+                        <p>Идэвхтэй уншигчид</p>
+                    </div>
+                </div>
+
+                <div class="stat-card glass-morphism">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>8,946</h3>
+                        <p>Амжилтын уншилтууд</p>
+                    </div>
+                </div>
+
+                <div class="stat-card glass-morphism">
+                    <div class="stat-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>4.7</h3>
+                        <p>Дундаж үнэлгээ</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <h2 class="section-title">Бидний тухай</h2>
+            <div class="about-content glass-morphism">
+                <div class="about-text">
+                    <p>Smart Library нь сургуулийн номын сангийн орчин үеийн шийдэл юм. Бид оюутан, багш, эцэг эхчүүдэд хүргэх хамгийн сайн номуудыг санал болгодог.</p>
+                    <p>Манай платформ ашиглан та хялбархан номыг хайх, захиалах, буцаах хугацаагаа удирдан чиглүүлэх боломжтой.</p>
+                    <h4>Манай үйлчилгээүүд:</h4>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Хурдан ном хайх систем</li>
+                        <li><i class="fas fa-check"></i> Ном захиалах, авах, буцаах</li>
+                        <li><i class="fas fa-check"></i> Уншигчийн хувийн самбар</li>
+                        <li><i class="fas fa-check"></i> 24/7 дифференциаль цахим үйлчилгээ</li>
+                        <li><i class="fas fa-check"></i> Сур, уншигчдад зөвлөмж</li>
+                    </ul>
+                </div>
+                <div class="about-image">
+                    <img src="https://via.placeholder.com/400x300?text=Library+Interior" alt="Номын сан">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <h2 class="section-title">Холбоо барих</h2>
+            <div class="contact-content">
+                <div class="contact-info glass-morphism">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Байршил</h4>
+                            <p>Улаанбаатар, Сүхэ баатарын орогон, сургууль</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Утас</h4>
+                            <p>+976 (11) 326-XXXX</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Имэйл</h4>
+                            <p>info@smartlibrary.mn</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h4>Цаг</h4>
+                            <p>Бүх өдөр: 08:00 - 20:00</p>
+                        </div>
+                    </div>
+                </div>
+
+                <form class="contact-form glass-morphism">
+                    <h3>Бидэнд бичих</h3>
+                    <input type="text" placeholder="Таны нэр" required>
+                    <input type="email" placeholder="Таны имэйл" required>
+                    <textarea placeholder="Таны мессеж" rows="5" required></textarea>
+                    <button type="submit" class="btn btn-primary">Илгээх</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Smart Library</h4>
+                    <p>Ухаалаг номын сан - орчин үеийн шийдэл</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Сайтын линк</h4>
+                    <ul>
+                        <li><a href="#home">Нүүр</a></li>
+                        <li><a href="#books">Номын сан</a></li>
+                        <li><a href="#categories">Ангилал</a></li>
+                        <li><a href="#about">Бидний тухай</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Холбогдох</h4>
+                    <ul>
+                        <li><i class="fab fa-facebook"></i> Facebook</li>
+                        <li><i class="fab fa-twitter"></i> Twitter</li>
+                        <li><i class="fab fa-instagram"></i> Instagram</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Smart Library. Бүх эрх хамгаалагдсан.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
