@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админист панель - Smart Library</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+            background: #f8f9ff;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(135deg, #f44336 0%, #da190b 100%);
+            color: white;
+            padding: 30px 20px;
+            overflow-y: auto;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .sidebar-header i {
+            font-size: 2rem;
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        .admin-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 12px 15px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .sidebar-menu i {
+            font-size: 1.2rem;
+            width: 25px;
+        }
+
+        .sidebar-footer {
+            position: absolute;
+            bottom: 30px;
+            left: 20px;
+            right: 20px;
+        }
+
+        .user-info {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 1.5rem;
+        }
+
+        .user-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .logout-btn {
+            width: 100%;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 40px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            color: #1a1a2e;
+            margin: 0;
+        }
+
+        .btn-add {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #f44336, #da190b);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(244, 67, 54, 0.3);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon.red {
+            background: rgba(244, 67, 54, 0.1);
+            color: #f44336;
+        }
+
+        .stat-icon.blue {
+            background: rgba(33, 150, 243, 0.1);
+            color: #2196F3;
+        }
+
+        .stat-icon.green {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+        }
+
+        .stat-icon.orange {
+            background: rgba(255, 152, 0, 0.1);
+            color: #ff9800;
+        }
+
+        .stat-content h3 {
+            margin: 0 0 5px 0;
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .stat-content p {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+
+        .section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            margin-top: 0;
+            margin-bottom: 25px;
+            color: #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h2 i {
+            color: #f44336;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f8f9ff;
+            border-bottom: 2px solid #e0e0ff;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0ff;
+        }
+
+        tr:hover {
+            background: #f8f9ff;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-active {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+        }
+
+        .badge-inactive {
+            background: rgba(158, 158, 158, 0.1);
+            color: #9e9e9e;
+        }
+
+        .badge-student {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+        }
+
+        .badge-teacher {
+            background: rgba(255, 152, 0, 0.1);
+            color: #ff9800;
+        }
+
+        .badge-parent {
+            background: rgba(0, 150, 136, 0.1);
+            color: #009688;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-edit,
+        .btn-delete,
+        .btn-view {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-edit {
+            background: #2196F3;
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background: #0b7dda;
+        }
+
+        .btn-delete {
+            background: #f44336;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #da190b;
+        }
+
+        .btn-view {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .btn-view:hover {
+            background: #45a049;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #1a1a2e;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 12px 15px;
+            border: 2px solid #e0e0ff;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #f44336;
+            box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e0ff;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: #1a1a2e;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #999;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+                padding: 15px 10px;
+            }
+
+            .sidebar-header h2 {
+                display: none;
+            }
+
+            .sidebar-menu a span {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 70px;
+                padding: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .table-responsive {
+                overflow-x: scroll;
+            }
+
+            table {
+                min-width: 600px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-shield-alt"></i>
+                <div>
+                    <h2>Admin</h2>
+                    <span class="admin-badge">АДМИНИСТ</span>
+                </div>
+            </div>
+
+            <ul class="sidebar-menu">
+                <li><a href="#dashboard" class="menu-link active" onclick="showSection('dashboard')">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Өгөгдөл</span>
+                </a></li>
+                <li><a href="#books" class="menu-link" onclick="showSection('books')">
+                    <i class="fas fa-book"></i>
+                    <span>Номуудын удирдлага</span>
+                </a></li>
+                <li><a href="#users" class="menu-link" onclick="showSection('users')">
+                    <i class="fas fa-users"></i>
+                    <span>Хэрэглэгчид</span>
+                </a></li>
+                <li><a href="#borrowing" class="menu-link" onclick="showSection('borrowing')">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Авалцал</span>
+                </a></li>
+                <li><a href="#settings" class="menu-link" onclick="showSection('settings')">
+                    <i class="fas fa-cog"></i>
+                    <span>Тохиргоо</span>
+                </a></li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <div class="user-name" id="adminName">Админист</div>
+                </div>
+                <button class="logout-btn" onclick="logoutAdmin()">
+                    <i class="fas fa-sign-out-alt"></i> Гарах
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <section id="dashboard-section" class="section-content">
+                <div class="header">
+                    <h1>Админист панель</h1>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon red">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Нийт номууд</h3>
+                            <p id="total-books">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Нийт хэрэглэгч</h3>
+                            <p id="total-users">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Идэвхтэй хэрэглэгч</h3>
+                            <p id="active-users">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Авсан номууд</h3>
+                            <p id="borrowed-books">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2><i class="fas fa-users"></i> Сүүлийн бүртгүүлсэн хэрэглэгчид</h2>
+                    <div class="table-responsive">
+                        <table id="recent-users-table">
+                            <thead>
+                                <tr>
+                                    <th>Нэр</th>
+                                    <th>Имэйл</th>
+                                    <th>Статус</th>
+                                    <th>Үйл ажиллагаа</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="4" style="text-align: center; padding: 30px;">Хэрэглэгч байхгүй</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Books Management Section -->
+            <section id="books-section" class="section-content" style="display: none;">
+                <div class="header">
+                    <h1>Номуудын удирдлага</h1>
+                    <button class="btn-add" onclick="openAddBookModal()">
+                        <i class="fas fa-plus"></i> Шинэ ном нэмэх
+                    </button>
+                </div>
+
+                <div class="section">
+                    <div class="table-responsive">
+                        <table id="books-table">
+                            <thead>
+                                <tr>
+                                    <th>Номын нэр</th>
+                                    <th>Зохиолч</th>
+                                    <th>Ангилал</th>
+                                    <th>Боломж</th>
+                                    <th>Үйл ажиллагаа</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="5" style="text-align: center; padding: 30px;">
+                                        <div class="empty-state">
+                                            <i class="fas fa-book"></i>
+                                            <p>Номын жагсаалт хоосон байна</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Users Management Section -->
+            <section id="users-section" class="section-content" style="display: none;">
+                <div class="header">
+                    <h1>Хэрэглэгч удирдлага</h1>
+                </div>
+
+                <div class="section">
+                    <h2><i class="fas fa-list"></i> Бүх хэрэглэгчид</h2>
+                    <div class="table-responsive">
+                        <table id="users-table">
+                            <thead>
+                                <tr>
+                                    <th>Нэр</th>
+                                    <th>Имэйл</th>
+                                    <th>Төрөл</th>
+                                    <th>Статус</th>
+                                    <th>Үйл ажиллагаа</th>
+                                </tr>
+                            </thead>
+                            <tbody id="users-tbody">
+                                <tr>
+                                    <td colspan="5" style="text-align: center; padding: 30px;">Хэрэглэгч ачаалаж байна...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Borrowing Section -->
+            <section id="borrowing-section" class="section-content" style="display: none;">
+                <div class="header">
+                    <h1>Авалцалын удирдлага</h1>
+                </div>
+
+                <div class="section">
+                    <h2><i class="fas fa-exchange-alt"></i> Идэвхтэй авалцал</h2>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Хэрэглэгч</th>
+                                    <th>Номын нэр</th>
+                                    <th>Авсан өдөр</th>
+                                    <th>Буцаах өдөр</th>
+                                    <th>Үйл ажиллагаа</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="5" style="text-align: center; padding: 30px;">
+                                        <div class="empty-state">
+                                            <i class="fas fa-inbox"></i>
+                                            <p>Авалцал байхгүй</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings-section" class="section-content" style="display: none;">
+                <div class="header">
+                    <h1>Системийн тохиргоо</h1>
+                </div>
+
+                <div class="section">
+                    <h2><i class="fas fa-sliders-h"></i> Ерөнхий тохиргоо</h2>
+                    <div class="form-group">
+                        <label>Номын сангийн нэр</label>
+                        <input type="text" value="Smart Library" placeholder="Номын сангийн нэр">
+                    </div>
+                    <div class="form-group">
+                        <label>Номоо авах хугацаа (хоног)</label>
+                        <input type="number" value="14" placeholder="Номоо авах хугацаа">
+                    </div>
+                    <div class="form-group">
+                        <label>Нэк буцаах торлог (хоног)</label>
+                        <input type="number" value="7" placeholder="Нэк буцаах торлог">
+                    </div>
+                    <button class="btn-add" style="margin-top: 20px;">
+                        <i class="fas fa-save"></i> Хадгалах
+                    </button>
+                </div>
+
+                <div class="section">
+                    <h2><i class="fas fa-exclamation-triangle"></i> Аюулгүй байдал</h2>
+                    <button class="btn-add" style="background: #ff9800; margin-bottom: 10px;">
+                        <i class="fas fa-key"></i> Администраторын нууц үг өөрчлөх
+                    </button>
+                    <br>
+                    <button style="padding: 12px 24px; background: #f44336; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                        <i class="fas fa-database"></i> Сервер цэвэрлэх
+                    </button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Add Book Modal -->
+    <div id="addBookModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Шинэ ном нэмэх</h2>
+                <button class="modal-close" onclick="closeAddBookModal()">&times;</button>
+            </div>
+            <form id="addBookForm">
+                <div class="form-group">
+                    <label>Номын нэр</label>
+                    <input type="text" required placeholder="Номын нэр">
+                </div>
+                <div class="form-group">
+                    <label>Зохиолч</label>
+                    <input type="text" required placeholder="Зохиолчийн нэр">
+                </div>
+                <div class="form-group">
+                    <label>Ангилал</label>
+                    <select required>
+                        <option value="">Ангилал сонгоно уу</option>
+                        <option value="fiction">Сонгодог уран зохиол</option>
+                        <option value="science">Шинжлэх ухаан</option>
+                        <option value="history">Түүх</option>
+                        <option value="tech">Технологи</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Нийт сувгийн тоо</label>
+                    <input type="number" required placeholder="Сувгийн тоо">
+                </div>
+                <button type="submit" class="btn-add" style="width: 100%; justify-content: center;">
+                    <i class="fas fa-check"></i> Нэмэх
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Admin Panel
+        window.addEventListener('load', function() {
+            initializeAdminPanel();
+        });
+
+        function initializeAdminPanel() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            
+            if (!currentUser || currentUser.role !== 'admin') {
+                window.location.href = 'auth.html';
+                return;
+            }
+
+            document.getElementById('adminName').textContent = currentUser.fullName;
+            
+            // Load data
+            loadStatistics();
+            loadUsers();
+            loadRecentUsers();
+        }
+
+        function loadStatistics() {
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const activeUsers = users.filter(u => u.isActive).length;
+            
+            document.getElementById('total-books').textContent = '247';
+            document.getElementById('total-users').textContent = users.length;
+            document.getElementById('active-users').textContent = activeUsers;
+            document.getElementById('borrowed-books').textContent = '34';
+        }
+
+        function loadUsers() {
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const tbody = document.getElementById('users-tbody');
+            
+            if (users.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 30px;">Хэрэглэгч байхгүй</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = users.map(user => `
+                <tr>
+                    <td>${user.fullName}</td>
+                    <td>${user.email}</td>
+                    <td><span class="badge badge-${user.role}">${getRoleLabel(user.role)}</span></td>
+                    <td><span class="badge ${user.isActive ? 'badge-active' : 'badge-inactive'}">${user.isActive ? 'Идэвхтэй' : 'Идэвхгүй'}</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-edit" onclick="editUser(${user.id})"><i class="fas fa-edit"></i> Засах</button>
+                            <button class="btn-delete" onclick="deleteUser(${user.id})"><i class="fas fa-trash"></i> Устгах</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function loadRecentUsers() {
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const recentUsers = users.slice(-5).reverse();
+            const tbody = document.getElementById('recent-users-table').querySelector('tbody');
+            
+            if (recentUsers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 30px;">Хэрэглэгч байхгүй</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = recentUsers.map(user => `
+                <tr>
+                    <td>${user.fullName}</td>
+                    <td>${user.email}</td>
+                    <td><span class="badge ${user.isActive ? 'badge-active' : 'badge-inactive'}">${user.isActive ? 'Идэвхтэй' : 'Идэвхгүй'}</span></td>
+                    <td>
+                        <button class="btn-view" onclick="viewUser(${user.id})"><i class="fas fa-eye"></i> Харах</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function getRoleLabel(role) {
+            const roleLabels = {
+                'student': 'Оюутан',
+                'teacher': 'Багш',
+                'parent': 'Эцэг эхэ',
+                'admin': 'Админист'
+            };
+            return roleLabels[role] || role;
+        }
+
+        function showSection(section) {
+            // Hide all sections
+            document.querySelectorAll('.section-content').forEach(el => {
+                el.style.display = 'none';
+            });
+
+            // Show selected section
+            const sectionId = section + '-section';
+            const sectionElement = document.getElementById(sectionId);
+            if (sectionElement) {
+                sectionElement.style.display = 'block';
+            }
+
+            // Update active menu
+            document.querySelectorAll('.menu-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.closest('a').classList.add('active');
+        }
+
+        function openAddBookModal() {
+            document.getElementById('addBookModal').classList.add('active');
+        }
+
+        function closeAddBookModal() {
+            document.getElementById('addBookModal').classList.remove('active');
+            document.getElementById('addBookForm').reset();
+        }
+
+        function editUser(userId) {
+            alert('Хэрэглэгч ' + userId + ' засах хуудас');
+        }
+
+        function deleteUser(userId) {
+            if (confirm('Та энэ хэрэглэгчийг устгахдаа итгэлтэй байна уу?')) {
+                alert('Хэрэглэгч ' + userId + ' устгалаа');
+                loadUsers();
+            }
+        }
+
+        function viewUser(userId) {
+            alert('Хэрэглэгч ' + userId + ' дэлгэрэнгүй');
+        }
+
+        function logoutAdmin() {
+            if (confirm('Та гарахдаа итгэлтэй байна уу?')) {
+                localStorage.removeItem('currentUser');
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('addBookModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeAddBookModal();
+            }
+        });
+    </script>
+</body>
+</html>
