@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Нэвтрэх - Smart Library</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0066cc 0%, #00a8ff 100%);
+            padding: 20px;
+        }
+
+        .auth-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            padding: 50px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .auth-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .auth-logo i {
+            font-size: 3rem;
+            color: #0066cc;
+            margin-bottom: 10px;
+        }
+
+        .auth-logo h1 {
+            font-size: 1.5rem;
+            color: #0066cc;
+            margin: 0;
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #1a1a2e;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 12px 15px;
+            border: 2px solid #e0e0ff;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #0066cc;
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            cursor: pointer;
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+
+        .btn-auth {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #0066cc, #00a8ff);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn-auth:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 102, 204, 0.3);
+        }
+
+        .auth-toggle {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .auth-toggle a {
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .auth-toggle a:hover {
+            text-decoration: underline;
+        }
+
+        .form-divider {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0;
+            color: #999;
+        }
+
+        .form-divider::before,
+        .form-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e0e0ff;
+        }
+
+        .social-login {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #e0e0ff;
+            background: transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            color: #0066cc;
+        }
+
+        .social-btn:hover {
+            border-color: #0066cc;
+            background: rgba(0, 102, 204, 0.1);
+        }
+
+        .role-option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 2px solid #e0e0ff;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        .role-option:hover {
+            border-color: #0066cc;
+            background: rgba(0, 102, 204, 0.05);
+        }
+
+        .role-option input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+
+        .role-option label {
+            margin: 0;
+            flex: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .error-message {
+            color: #f44336;
+            font-size: 0.85rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .success-message {
+            color: #4CAF50;
+            font-size: 0.85rem;
+            display: none;
+            padding: 10px;
+            background: rgba(76, 175, 80, 0.1);
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        @media (max-width: 480px) {
+            .auth-card {
+                padding: 30px 20px;
+            }
+
+            .auth-logo h1 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-logo">
+                <i class="fas fa-book-open"></i>
+                <h1>Smart Library</h1>
+            </div>
+
+            <div class="success-message" id="successMessage"></div>
+
+            <!-- Login Form -->
+            <div id="loginForm">
+                <h2 style="text-align: center; margin-bottom: 30px; color: #1a1a2e;">Нэвтрэх</h2>
+                
+                <div class="social-login">
+                    <button class="social-btn" title="Google-р нэвтрэх" type="button">
+                        <i class="fab fa-google"></i>
+                    </button>
+                    <button class="social-btn" title="Facebook-р нэвтрэх" type="button">
+                        <i class="fab fa-facebook"></i>
+                    </button>
+                </div>
+
+                <div class="form-divider">Эсвэл</div>
+
+                <form class="auth-form" id="loginAuthForm">
+                    <div class="form-group">
+                        <label for="loginEmail">Имэйл</label>
+                        <input type="email" id="loginEmail" placeholder="your@email.com" required>
+                        <span class="error-message"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginPassword">Нууц үг</label>
+                        <input type="password" id="loginPassword" placeholder="••••••••" required>
+                        <span class="error-message"></span>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="rememberMe">
+                        <label for="rememberMe">Намайг санаж байх</label>
+                    </div>
+
+                    <button type="submit" class="btn-auth">Нэвтрэх</button>
+                </form>
+
+                <div class="auth-toggle">
+                    Хэсэг байхгүй юу? <a onclick="toggleForms()">Бүртгүүлэх</a>
+                </div>
+            </div>
+
+            <!-- Signup Form -->
+            <div id="signupForm" style="display: none;">
+                <h2 style="text-align: center; margin-bottom: 30px; color: #1a1a2e;">Бүртгүүлэх</h2>
+                
+                <form class="auth-form" id="signupAuthForm">
+                    <div class="form-group">
+                        <label for="signupFullName">Бүтэн нэр</label>
+                        <input type="text" id="signupFullName" placeholder="Таны нэр" required>
+                        <span class="error-message"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signupEmail">Имэйл</label>
+                        <input type="email" id="signupEmail" placeholder="your@email.com" required>
+                        <span class="error-message"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Та кэн бэ?</label>
+                        <div class="role-option">
+                            <input type="radio" id="roleStudent" name="role" value="student" required>
+                            <label for="roleStudent">
+                                <i class="fas fa-user-graduate"></i> Оюутан
+                            </label>
+                        </div>
+                        <div class="role-option">
+                            <input type="radio" id="roleTeacher" name="role" value="teacher" required>
+                            <label for="roleTeacher">
+                                <i class="fas fa-chalkboard-user"></i> Багш
+                            </label>
+                        </div>
+                        <div class="role-option">
+                            <input type="radio" id="roleParent" name="role" value="parent" required>
+                            <label for="roleParent">
+                                <i class="fas fa-users"></i> Эцэг эхэ
+                            </label>
+                        </div>
+                        <div class="role-option">
+                            <input type="radio" id="roleAdmin" name="role" value="admin" required>
+                            <label for="roleAdmin">
+                                <i class="fas fa-shield"></i> Админист
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signupPassword">Нууц үг</label>
+                        <input type="password" id="signupPassword" placeholder="••••••••" required>
+                        <span class="error-message"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signupConfirmPassword">Нууц үг баталгаажуулах</label>
+                        <input type="password" id="signupConfirmPassword" placeholder="••••••••" required>
+                        <span class="error-message"></span>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="agreeTerms" required>
+                        <label for="agreeTerms">Нөхцөл, заалтыг зөвшөөрөх</label>
+                    </div>
+
+                    <button type="submit" class="btn-auth">Бүртгүүлэх</button>
+                </form>
+
+                <div class="auth-toggle">
+                    Аль хэдийн нэвтэрсэн үү? <a onclick="toggleForms()">Нэвтрэх</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleForms() {
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+            
+            loginForm.style.display = loginForm.style.display === 'none' ? 'block' : 'none';
+            signupForm.style.display = signupForm.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Login Form Submit
+        document.getElementById('loginAuthForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+
+            // Validation
+            if (!email || !isValidEmail(email)) {
+                showError('loginEmail', 'Зөв имэйл оруулна уу');
+                return;
+            }
+
+            if (!password || password.length < 6) {
+                showError('loginPassword', 'Нууц үг 6 эсвэл түүнээс их байх ёстой');
+                return;
+            }
+
+            // Simulate login - check if user exists
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            let user = users.find(u => u.email === email);
+
+            if (!user) {
+                showError('loginEmail', 'Энэ имэйл бүртгэлтэй байхгүй');
+                return;
+            }
+
+            // Save current user
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            localStorage.setItem('rememberMe', rememberMe);
+
+            showSuccess('Амжилттай нэвтэрлээ! Та дDashboard-т шилжиж байна...');
+            
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 1500);
+        });
+
+        // Signup Form Submit
+        document.getElementById('signupAuthForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const fullName = document.getElementById('signupFullName').value;
+            const email = document.getElementById('signupEmail').value;
+            const role = document.querySelector('input[name="role"]:checked').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+            const agreeTerms = document.getElementById('agreeTerms').checked;
+
+            // Validation
+            if (!fullName || fullName.length < 3) {
+                showError('signupFullName', 'Нэр 3 эсвэл түүнээс их байх ёстой');
+                return;
+            }
+
+            if (!email || !isValidEmail(email)) {
+                showError('signupEmail', 'Зөв имэйл оруулна уу');
+                return;
+            }
+
+            if (!password || password.length < 6) {
+                showError('signupPassword', 'Нууц үг 6 эсвэл түүнээс их байх ёстой');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showError('signupConfirmPassword', 'Нууц үг таарахгүй байна');
+                return;
+            }
+
+            if (!agreeTerms) {
+                alert('Нөхцөл, заалтыг зөвшөөрөх ёстой');
+                return;
+            }
+
+            // Create new user
+            const newUser = {
+                id: Date.now(),
+                fullName: fullName,
+                email: email,
+                role: role,
+                createdAt: new Date().toISOString(),
+                isActive: true
+            };
+
+            // Save to localStorage
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            
+            // Check if email already exists
+            if (users.some(u => u.email === email)) {
+                showError('signupEmail', 'Энэ имэйл бүртгэлтэй байна');
+                return;
+            }
+
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            localStorage.setItem('currentUser', JSON.stringify(newUser));
+
+            showSuccess('Бүртгүүлэлт амжилттай боллоо! Та дDashboard-т шилжиж байна...');
+            
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 1500);
+        });
+
+        function showError(inputId, message) {
+            const input = document.getElementById(inputId);
+            const errorElement = input.parentElement.querySelector('.error-message');
+            errorElement.textContent = message;
+            errorElement.classList.add('show');
+            
+            input.style.borderColor = '#f44336';
+        }
+
+        function showSuccess(message) {
+            const successElement = document.getElementById('successMessage');
+            successElement.textContent = message;
+            successElement.classList.add('show');
+        }
+
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        // Clear errors on input
+        document.querySelectorAll('input[type="text"], input[type="email"], input[type="password"]').forEach(input => {
+            input.addEventListener('focus', function() {
+                const errorElement = this.parentElement.querySelector('.error-message');
+                if (errorElement) {
+                    errorElement.classList.remove('show');
+                    this.style.borderColor = '#e0e0ff';
+                }
+            });
+        });
+
+        // Initialize - check if already logged in
+        window.addEventListener('load', function() {
+            const currentUser = localStorage.getItem('currentUser');
+            if (currentUser) {
+                // If already logged in, redirect to dashboard
+                window.location.href = 'dashboard.html';
+            }
+        });
+    </script>
+</body>
+</html>
